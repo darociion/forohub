@@ -1,27 +1,40 @@
 package com.challenge.forohub.domain.topico;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-/*@Table(name = "topicos")
-@Entity(name = "Topico")*/
+@Table(name = "topicos")
+@Entity(name = "Topico")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Topico {
 
-    /*@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)*/
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String titulo;
     private String mensaje;
-    private LocalDate fechaDeCreacion;
+    private LocalDateTime fechaDeCreacion;
     private Boolean status;
     private String autor;
     private String curso;
 
+    public Topico(DatosRegistroTopico datosRegistroTopico) {
+        this.titulo = datosRegistroTopico.titulo();
+        this.mensaje = datosRegistroTopico.mensaje();
+        this.autor = datosRegistroTopico.autor();
+        this.curso = datosRegistroTopico.curso();
+        this.fechaDeCreacion = LocalDateTime.now();
+        this.status = true;
+    }
+
+    public void desactivarTopico() {
+        this.status = false;
+    }
 }
