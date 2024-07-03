@@ -34,8 +34,12 @@ public class TopicoController {
     }
 
     @PutMapping
-    public void actualizarTopico() {
-
+    @Transactional
+    public ResponseEntity<DatosRespuestaTopico> actualizarTopico(@RequestBody @Valid DatosActualizarTopico datosActualizarTopico) {
+        var topico = topicoRepository.getReferenceById(datosActualizarTopico.id());
+        topico.actualizarDatos(datosActualizarTopico);
+        return ResponseEntity.ok(new DatosRespuestaTopico(topico.getId(), topico.getTitulo(), topico.getMensaje(),
+                topico.getFechaDeCreacion(), topico.getAutor(), topico.getCurso()));
     }
 
     @DeleteMapping("/{id}")
